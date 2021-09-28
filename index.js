@@ -1,6 +1,4 @@
-const express = require('express')
-const logger = require('./middleware/logger')
-const app = express()
+const app = require('express')()
 const port = process.env.PORT || 3000
 
 app.get('/', (req, res) => {
@@ -12,5 +10,5 @@ app.listen(port, () => {
 })
 
 
-app.use(logger)
-app.use('/api/members', require('./api/members'))
+app.use(require('./api/logger'))
+app.use('/api/', require('./api/test'))
