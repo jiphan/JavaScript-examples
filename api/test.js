@@ -29,7 +29,7 @@ axios.post('https://www.reddit.com/api/v1/access_token',
     .then(res => {
         reddit_token = res.data.access_token
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err.response.data))
 
 router.get('/reddit/:id', async (req, res) => {
     let d = await axios.get(`https://www.reddit.com/r/${req.params.id}.json`,
@@ -44,11 +44,6 @@ router.get('/reddit/:id', async (req, res) => {
         })
         .catch(err => console.log(err.response.data))
 
-    // if (d) {
-    //     for (let i of d.data.data.children) {
-    //         console.log(i.data.title)
-    //     }
-    // }
     res
         .status(200)
         .json(d.data.data.children.map(i => i.data.title))
