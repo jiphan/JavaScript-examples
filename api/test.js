@@ -32,7 +32,7 @@ axios.post('https://www.reddit.com/api/v1/access_token',
     .catch(err => console.log(err.response.data))
 
 router.get('/reddit/:id', async (req, res) => {
-    let d = await axios.get(`https://www.reddit.com/r/${req.params.id}.json`,
+    let response = await axios.get(`https://www.reddit.com/r/${req.params.id}.json`,
         {
             //
         },
@@ -46,7 +46,16 @@ router.get('/reddit/:id', async (req, res) => {
 
     res
         .status(200)
-        .json(d.data.data.children.map(i => i.data.title))
+        .json(response.data.data.children.map(i => {
+            return {
+                title: i.data.title,
+                id: i.data.id,
+                score: i.data.score,
+                timestamp: i.data.created,
+                upvote_ratio: i.data.upvote_ratio,
+
+            }
+        }))
 })
 
 module.exports = router
