@@ -19,8 +19,8 @@ app.get('/api', (req, res) => {
     ])
 })
 
-server.listen(port, () => {
-    console.log(`Example app listening at https://localhost:${port}`)
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
 })
 
 
