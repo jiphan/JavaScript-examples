@@ -32,10 +32,8 @@ axios.post('https://www.reddit.com/api/v1/access_token',
     .catch(err => console.log(err.response.data))
 
 router.get('/:id', async (req, res) => {
-    let response = await axios.get(`https://www.reddit.com/r/${req.params.id}.json`,
-        {
-            //
-        },
+    let response = await axios.get(`https://www.reddit.com/r/${req.params.id}.json?limit=10`,
+        {},
         {
             headers: {
                 'User-Agent': `node:test:1.0 by /u/${keys.reddit_user}`,
