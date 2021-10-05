@@ -2,7 +2,7 @@
 node_modules
 /dist
 keys.json
-
+*.pem
 
 # local env files
 .env.local
