@@ -16,19 +16,17 @@ axios.post('https://www.reddit.com/api/v1/access_token',
     //     username: keys.reddit_user,
     //     password: keys.reddit_pass
     // },
-    `grant_type=password&username=${keys.reddit_user}&password=${keys.reddit_pass}`,
+    `grant_type=password&username=${keys.reddit.username}&password=${keys.reddit.password}`,
     {
         headers: {
-            'User-Agent': `node:test:1.0 by /u/${keys.reddit_user}`
+            'User-Agent': `node:test:1.0 by /u/${keys.reddit.username}`
         },
         auth: {
-            username: keys.reddit_id,
-            password: keys.reddit_secret
+            username: keys.reddit.id,
+            password: keys.reddit.secret
         }
     })
-    .then(res => {
-        reddit_token = res.data.access_token
-    })
+    .then(res => reddit_token = res.data.access_token)
     .catch(err => console.log(err.response.data))
 
 router.get('/:id', async (req, res) => {
@@ -36,7 +34,7 @@ router.get('/:id', async (req, res) => {
         {},
         {
             headers: {
-                'User-Agent': `node:test:1.0 by /u/${keys.reddit_user}`,
+                'User-Agent': `node:test:1.0 by /u/${keys.reddit.username}`,
                 Authorization: `bearer ${reddit_token}`
             }
         })

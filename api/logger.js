@@ -3,10 +3,7 @@ const { DynamoDBClient, ListTablesCommand, PutItemCommand } = require('@aws-sdk/
 const keys = require('../keys.json')
 
 const client = new DynamoDBClient({
-    credentials: {
-        accessKeyId: keys.aws_id,
-        secretAccessKey: keys.aws_secret
-    },
+    credentials: keys.aws,
     region: 'us-east-2'
 })
 
