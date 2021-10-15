@@ -1,4 +1,5 @@
 const app = require('express')()
+const port = process.env.PORT || 3000
 
 app.set('json spaces', 2)
 app.get('/', (req, res) => {
@@ -12,7 +13,7 @@ app.get('/api', (req, res) => {
     ])
 })
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
 
