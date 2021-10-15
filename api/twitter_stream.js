@@ -3,7 +3,7 @@ const needle = require('needle');
 (async () => {
     const twitter_token = (await require('./twitter')()).data
 
-    twitStream(twitter_token)
+    twitStream(twitter_token, 0)
     handleInput(twitter_token)
 })()
 
@@ -107,7 +107,7 @@ async function twitStream(twitter_token, retryAttempt) {
         setTimeout(() => {
             console.log('Reconnecting...')
             twitStream(twitter_token, ++retryAttempt)
-        }, 30 + 2 ** retryAttempt)
+        }, 2 ** retryAttempt)
     })
     return stream
 }
