@@ -81,7 +81,15 @@ async function twitStream(twitter_token, retryAttempt) {
             'Authorization': `bearer ${twitter_token.access_token}`
         },
         timeout: 20000
-    }).on('header', header => console.log('Status:', header))
+    }).on('header', header => {
+        console.log('Status:', header)
+        if (header != 200) {
+            setTimeout(() => {
+                console.log('Retrying...')
+                twitStream(twitter_token, ++retryAttempt)
+            }, 2048 + 2 ** retryAttempt)
+        }
+    })
 
     stream.on('data', data => {
         try {
@@ -98,16 +106,14 @@ async function twitStream(twitter_token, retryAttempt) {
             ]], 'twitarchiver!A1')
             retryAttempt = 0
         } catch (e) {
-            if (data.detail) {
-                console.log(data.detail)
-            }
+            if (data.detail) console.log(data.detail)
         }
     }).on('err', err => {
         console.log(err)
         setTimeout(() => {
             console.log('Reconnecting...')
             twitStream(twitter_token, ++retryAttempt)
-        }, 2 ** retryAttempt)
+        }, 2048 + 2 ** retryAttempt)
     })
     return stream
 }
