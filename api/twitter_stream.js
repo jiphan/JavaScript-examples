@@ -107,7 +107,7 @@ async function twitStream(twitter_token, retryAttempt) {
         setTimeout(() => {
             console.log('Reconnecting...')
             twitStream(twitter_token, ++retryAttempt)
-        }, 2 ** retryAttempt)
+        }, 10 + 2 ** retryAttempt)
     })
     return stream
 }
