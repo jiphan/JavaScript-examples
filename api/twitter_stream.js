@@ -1,9 +1,7 @@
-const needle = require('needle')
-const twitAuth = require('./twitter')
-const writeRows = require('./google');
+const needle = require('needle');
 
 (async () => {
-    const twitter_token = (await twitAuth()).data
+    const twitter_token = (await require('./twitter').twitAuth()).data
 
     twitStream(twitter_token)
     handleInput(twitter_token)
@@ -63,7 +61,6 @@ async function addTwitRule(twitter_token, username) {
 }
 
 async function delTwitRule(twitter_token, ids) {
-    console.log(ids)
     needle('post',
         'https://api.twitter.com/2/tweets/search/stream/rules',
         {
@@ -89,7 +86,9 @@ async function twitStream(twitter_token, retryAttempt) {
     stream.on('data', data => {
         try {
             let res = parse(JSON.parse(data))
-            writeRows([[
+            console.log(res.username)
+            if (res.text.startsWith('RT')) return // filter retweets
+            require('./google')([[
                 res.username,
                 res.text,
                 String(res.images),
@@ -130,4 +129,9 @@ function getStreamUrl() {
     url.searchParams.append('tweet.fields', 'created_at')
     url.searchParams.append('user.fields', 'name,username')
     return url.href
+}
+
+module.exports = {
+    twitStream,
+    handleInput
 }

@@ -1,14 +1,7 @@
 const axios = require('axios')
 const moment = require('moment')
 const writeRows = require('./google')
-const keys = require('../keys.json');
-
-(async () => {
-    const twitter_token = (await twitAuth()).data
-
-    twitFollows(twitter_token)
-    setInterval(() => twitFollows(twitter_token), 6 * 60 * 60 * 1000)
-})()
+const keys = require('../keys.json')
 
 async function twitAuth() {
     return axios.post(
@@ -53,4 +46,7 @@ function getFollows(twitter_token, user_list) {
     }).catch(err => console.log(err.response.data))
 }
 
-module.exports = twitAuth
+module.exports = {
+    twitAuth,
+    twitFollows
+}
