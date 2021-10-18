@@ -49,7 +49,7 @@ async function addTwitRule(twitter_token, username) {
     needle('post',
         'https://api.twitter.com/2/tweets/search/stream/rules',
         {
-            'add': [{ 'value': `from:${username}` }]
+            'add': [{ 'value': `from:${username} has:links` }]
         },
         {
             headers: {
