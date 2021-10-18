@@ -15,7 +15,10 @@ function handleInput(twitter_token) {
         let args = input.split(' ')
         switch (args[0]) {
             case 'add':
-                addTwitRule(twitter_token, args[1])
+                addTwitRule(twitter_token, args[1], true)
+                break
+            case 'add2':
+                addTwitRule(twitter_token, args[1], false)
                 break
             case 'delete':
                 args.shift()
@@ -45,11 +48,11 @@ async function readTwitRule(twitter_token) {
     ).then(res => console.log(res.body.data))
 }
 
-async function addTwitRule(twitter_token, username) {
+async function addTwitRule(twitter_token, username, linksonly) {
     needle('post',
         'https://api.twitter.com/2/tweets/search/stream/rules',
         {
-            'add': [{ 'value': `from:${username} has:links` }]
+            'add': [{ 'value': `from:${username} ${linksonly ? 'has:links' : ''} -is:retweet` }]
         },
         {
             headers: {
