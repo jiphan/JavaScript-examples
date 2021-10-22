@@ -3,7 +3,7 @@ const needle = require('needle');
 (async () => {
     const twitter_token = (await require('./twitter')()).data
 
-    twitStream(twitter_token, 0)
+    // twitStream(twitter_token, 0)
     handleInput(twitter_token)
 })()
 
@@ -15,10 +15,11 @@ function handleInput(twitter_token) {
         let args = input.split(' ')
         switch (args[0]) {
             case 'add':
-                addTwitRule(twitter_token, args[1], true)
+                addTwitRule(twitter_token, args[1])
                 break
             case 'add2':
-                addTwitRule(twitter_token, args[1], false)
+                args.shift()
+                add2TwitRule(twitter_token, args.join(' '))
                 break
             case 'delete':
                 args.shift()
@@ -48,11 +49,26 @@ async function readTwitRule(twitter_token) {
     ).then(res => console.log(res.body.data))
 }
 
-async function addTwitRule(twitter_token, username, linksonly) {
+async function add2TwitRule(twitter_token, rule) {
     needle('post',
         'https://api.twitter.com/2/tweets/search/stream/rules',
         {
-            'add': [{ 'value': `from:${username} ${linksonly ? 'has:links' : ''} -is:retweet` }]
+            'add': [{ 'value': `${rule}` }]
+        },
+        {
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `bearer ${twitter_token.access_token}`
+            }
+        }
+    ).then(res => console.log(res.body))
+}
+
+async function addTwitRule(twitter_token, username) {
+    needle('post',
+        'https://api.twitter.com/2/tweets/search/stream/rules',
+        {
+            'add': [{ 'value': `from:${username} has:links -is:retweet` }]
         },
         {
             headers: {
@@ -98,7 +114,6 @@ async function twitStream(twitter_token, retryAttempt) {
         try {
             let res = parse(JSON.parse(data))
             console.log(res.username)
-            if (res.text.startsWith('RT')) return // filter retweets
             require('./google')([[
                 res.username,
                 res.text,
@@ -142,5 +157,6 @@ function getStreamUrl() {
 
 module.exports = {
     twitStream,
-    handleInput
+    handleInput,
+    addTwitRule
 }
