@@ -3,7 +3,7 @@ const needle = require('needle');
 (async () => {
     const twitter_token = (await require('./twitter')()).data
 
-    // twitStream(twitter_token, 0)
+    twitStream(twitter_token, 0)
     handleInput(twitter_token)
 })()
 
