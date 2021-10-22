@@ -68,7 +68,7 @@ async function addTwitRule(twitter_token, username) {
     needle('post',
         'https://api.twitter.com/2/tweets/search/stream/rules',
         {
-            'add': [{ 'value': `from:${username} has:links -is:retweet` }]
+            'add': [{ 'value': `from:${username} has:media -is:retweet` }]
         },
         {
             headers: {
@@ -113,7 +113,7 @@ async function twitStream(twitter_token, retryAttempt) {
     stream.on('data', data => {
         try {
             let res = parse(JSON.parse(data))
-            console.log(res.username)
+            console.log(res)
             require('./google')([[
                 res.username,
                 res.text,
@@ -143,6 +143,7 @@ function parse(json) {
         images: json.includes.media ? json.includes.media.map(i => i.url) : null,
         tweet_id: json.data.id,
         timestamp: json.data.created_at,
+        rule: json.matching_rules.map(i => i.id)
     }
 }
 
