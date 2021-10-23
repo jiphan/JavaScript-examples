@@ -99,7 +99,7 @@ async function twitStream(twitter_token, retryAttempt) {
         headers: {
             'Authorization': `bearer ${twitter_token.access_token}`
         },
-        timeout: 20000
+        timeout: 60000
     }).on('header', header => {
         console.log('Status:', header)
         if (header != 200) {
