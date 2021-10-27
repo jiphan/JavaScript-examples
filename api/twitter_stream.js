@@ -29,7 +29,7 @@ function handleInput(twitter_token) {
                 readTwitRule(twitter_token)
                 break
             case 'retry':
-                twitStream(twitter_token)
+                twitStream(twitter_token, 0)
                 break
             default:
                 console.log('404')
