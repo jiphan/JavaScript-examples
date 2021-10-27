@@ -3,7 +3,7 @@ const needle = require('needle');
 (async () => {
     const twitter_token = (await require('./twitter')()).data
 
-    twitStream(twitter_token, 0)
+    twitStream(twitter_token, 20)
     handleInput(twitter_token)
 })()
 
@@ -29,7 +29,7 @@ function handleInput(twitter_token) {
                 readTwitRule(twitter_token)
                 break
             case 'retry':
-                twitStream(twitter_token, 0)
+                twitStream(twitter_token, 10)
                 break
             default:
                 console.log('404')
@@ -106,7 +106,7 @@ async function twitStream(twitter_token, retryAttempt) {
             setTimeout(() => {
                 console.log('Retrying...')
                 twitStream(twitter_token, ++retryAttempt)
-            }, 2048 + 2 ** retryAttempt)
+            }, 2 ** retryAttempt)
         }
     })
 
@@ -122,7 +122,7 @@ async function twitStream(twitter_token, retryAttempt) {
                 res.timestamp,
                 'twitter.com/i/status/' + res.tweet_id
             ]], 'twitarchiver!A1')
-            retryAttempt = 0
+            retryAttempt = 10
         } catch (e) {
             if (data.detail) console.log(data.detail)
         }
@@ -131,7 +131,7 @@ async function twitStream(twitter_token, retryAttempt) {
         setTimeout(() => {
             console.log('Reconnecting...')
             twitStream(twitter_token, ++retryAttempt)
-        }, 2048 + 2 ** retryAttempt)
+        }, 2 ** retryAttempt)
     })
     return stream
 }
