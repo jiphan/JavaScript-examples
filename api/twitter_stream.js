@@ -117,7 +117,7 @@ async function twitStream(twitter_token, retryAttempt) {
             require('./google')([[
                 res.username,
                 res.text,
-                String(res.images),
+                res.images.join(' '),
                 res.tweet_id,
                 res.timestamp,
                 'twitter.com/i/status/' + res.tweet_id
@@ -135,6 +135,7 @@ async function twitStream(twitter_token, retryAttempt) {
         }, 2 ** retryAttempt)
     })
     stream.on('done', err => {
+        console.log(err)
         setTimeout(() => {
             console.log('Resetting...')
             twitStream(twitter_token, ++retryAttempt)
