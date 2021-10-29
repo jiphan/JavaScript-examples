@@ -121,17 +121,10 @@ async function twitStream(twitter_token, retryAttempt) {
             if (data.detail) console.log(data.detail)
         }
     })
-    stream.on('err', err => {
-        console.log(err)
-        setTimeout(() => {
-            console.log('Reconnecting...')
-            twitStream(twitter_token, ++retryAttempt)
-        }, 2 ** retryAttempt)
-    })
     stream.on('done', err => {
         console.log(err)
         setTimeout(() => {
-            console.log('Resetting...')
+            console.log('Reconnecting...')
             twitStream(twitter_token, ++retryAttempt)
         }, 2 ** retryAttempt)
     })
