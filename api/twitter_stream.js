@@ -102,12 +102,6 @@ async function twitStream(twitter_token, retryAttempt) {
         timeout: 60000
     }).on('header', header => {
         console.log('Status:', header)
-        if (header != 200) {
-            setTimeout(() => {
-                console.log('Retrying...')
-                twitStream(twitter_token, ++retryAttempt)
-            }, 2 ** retryAttempt)
-        }
     })
 
     stream.on('data', data => {
