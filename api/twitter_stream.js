@@ -107,7 +107,7 @@ async function twitStream(twitter_token, retryAttempt) {
     stream.on('data', data => {
         try {
             let res = parse(JSON.parse(data))
-            console.log(JSON.parse(data))
+            console.log(JSON.parse(data), res)
             require('./google')([[
                 res.username,
                 res.text,
