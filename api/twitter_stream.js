@@ -114,7 +114,7 @@ async function twitStream(twitter_token, retryAttempt) {
             require('./google')([[
                 res.username,
                 res.text,
-                res.images.join(' '),
+                res.images,
                 res.tweet_id,
                 res.timestamp,
                 'twitter.com/i/status/' + res.tweet_id
