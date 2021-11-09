@@ -31,6 +31,9 @@ function handleInput(twitter_token) {
             case 'retry':
                 twitStream(twitter_token, 10)
                 break
+            case 'write':
+                require('./google')([[args[1]]], 'twitarchiver!A1')
+                break
             default:
                 console.log('404')
                 console.log(args)
@@ -107,7 +110,7 @@ async function twitStream(twitter_token, retryAttempt) {
     stream.on('data', data => {
         try {
             let res = parse(JSON.parse(data))
-            console.log(JSON.parse(data), res)
+            console.log(JSON.parse(data).includes)
             require('./google')([[
                 res.username,
                 res.text,
