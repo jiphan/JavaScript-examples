@@ -137,7 +137,7 @@ async function twitStream(twitter_token, retryAttempt) {
 function parse(json) {
     let media = ''
     if (json.includes.media) {
-        if (json.includes.media[0].url) media = json.includes.media.map(i => i.url)
+        if (json.includes.media[0].url) media = json.includes.media.map(i => i.url).join()
     }
     return {
         username: json.includes.users.filter(i => i.id == json.data.author_id)[0].username,
