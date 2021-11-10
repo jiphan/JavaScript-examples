@@ -15,7 +15,7 @@ function writeRows(res, range) {
         range: range || keys.google.range,
         valueInputOption: 'USER_ENTERED',
         resource: { values: res }
-    }).then(res => console.log('sheet', res.status))
+    }).then(res => console.log('google sheet', res.status))
 }
 
 module.exports = writeRows

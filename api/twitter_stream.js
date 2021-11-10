@@ -104,13 +104,14 @@ async function twitStream(twitter_token, retryAttempt) {
         },
         timeout: 60000
     }).on('header', header => {
-        console.log('Status:', header)
+        console.log('twitter auth', header)
     })
 
     stream.on('data', data => {
         try {
             let res = parse(JSON.parse(data))
-            console.log(JSON.parse(data).includes)
+            // console.log(JSON.parse(data).includes)
+            console.log(res.username, res.text.replace(/\n/g, '\\n'))
             require('./google')([[
                 res.username,
                 res.text,
