@@ -135,14 +135,10 @@ async function twitStream(twitter_token, retryAttempt) {
 }
 
 function parse(json) {
-    let media = ''
-    if (json.includes.media) {
-        if (json.includes.media[0].url) media = json.includes.media.map(i => i.url).join()
-    }
     return {
         username: json.includes.users.filter(i => i.id == json.data.author_id)[0].username,
         text: json.data.text,
-        images: media,
+        images: json.includes.media ? json.includes.media.map(i => i.url).join(' ') : null,
         tweet_id: json.data.id,
         timestamp: json.data.created_at,
         rule: json.matching_rules.map(i => i.id)
