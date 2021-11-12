@@ -126,11 +126,11 @@ async function twitStream(twitter_token, retryAttempt) {
         }
     })
     stream.on('close', err => {
-        if (err) err = 'closed'
+        if (!err) err = 'closed'
         retry(err, twitter_token, retryAttempt)
     })
     stream.on('timeout', err => {
-        if (err) err = 'timeout'
+        if (!err) err = 'timeout'
         retry(err, twitter_token, retryAttempt)
     })
     return stream
