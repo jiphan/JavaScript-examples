@@ -108,6 +108,7 @@ async function twitStream(twitter_token, retryAttempt) {
     })
 
     stream.on('data', data => {
+        // console.log(data)
         try {
             let res = parse(JSON.parse(data))
             // console.log(JSON.parse(data).includes)
@@ -122,7 +123,8 @@ async function twitStream(twitter_token, retryAttempt) {
             ]], 'twitarchiver!A1')
             retryAttempt = 10
         } catch (e) {
-            if (data.detail) console.log(data.detail)
+            if (data.detail) console.log('data ->', data.detail)
+            // else console.log(e)
         }
     })
     stream.on('close', err => {
