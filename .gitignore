@@ -3,6 +3,7 @@ node_modules
 /dist
 keys*.json
 *.pem
+test.js
 
 # local env files
 .env.local
